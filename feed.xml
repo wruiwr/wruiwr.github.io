@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.1">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2020-08-08T03:45:37+00:00</updated><id>/feed.xml</id><title type="html">Rui Wang</title><subtitle>Personal Website of Rui Wang</subtitle><author><name>Rui Wang</name></author><entry><title type="html">Model-Based Testing for Fault-Tolerant Distributed Systems and Consensus Protocols.</title><link href="/2020/05/12/mbt-for-distributed-systems-protocols/" rel="alternate" type="text/html" title="Model-Based Testing for Fault-Tolerant Distributed Systems and Consensus Protocols." /><published>2020-05-12T00:00:00+00:00</published><updated>2020-05-12T00:00:00+00:00</updated><id>/2020/05/12/mbt-for-distributed-systems-protocols</id><content type="html" xml:base="/2020/05/12/mbt-for-distributed-systems-protocols/">&lt;p&gt;Society is increasingly dependent on fault-tolerant cloud-based services which rely on the correctness and reliability of advanced distributed software systems and consensus protocols. The implementations of these systems require complex processing logic which in turn makes them challenging to implement correctly and also challenging to test in a systematic way. Model-based software testing (MBT) is a powerful approach for testing software systems. MBT enables automated test case generation from models, which can be used to investigate fault-tolerance and expose errors in the implementations of software systems.&lt;/p&gt;
+
+&lt;p&gt;Our research goal was to provide an MBT approach for generating test cases to validate the correctness of quorum-based fault-tolerant distributed systems and consensus protocols implemented using the &lt;a href=&quot;https://github.com/relab/gorums&quot;&gt;Gorums framework&lt;/a&gt; [1], in order to ensure the consistency and fault tolerance and in terms of concurrency, server failures, programming errors, and high code coverage.
+The Gorums framework is a novel framework relies on Quorums [2], the Google &lt;a href=&quot;https://grpc.io/&quot;&gt;gRPC&lt;/a&gt;, and &lt;a href=&quot;https://developers.google.com/protocol-buffers&quot;&gt;protocol buffers&lt;/a&gt; for building fault-tolerant distributed systems. 
+The picture below shows the architecture of the Gorums framework.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/Gorums.png&quot; alt=&quot;Gorums&quot; style=&quot;width:300px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;design&quot;&gt;Design&lt;/h4&gt;
+&lt;p&gt;We designed a general MBT approach [3] and a QuoMBT framework [4] based on generating test cases from testing models created via Coloured Petri Nets (CPNs) [5] and &lt;a href=&quot;http://www.cpntools.org&quot;&gt;CPN Tools&lt;/a&gt; [6]. QuoMBT enables testing of the Gorums middleware framework and quorum-based fault-tolerant distributed systems implemented via Gorums using automatically generated test cases.
+Our QuoMBT framework and MBT approach are shown in the figures below.&lt;/p&gt;
+
+&lt;h6 id=&quot;the-quombt-framework&quot;&gt;The QuoMBT framework&lt;/h6&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/QuoMBT.png&quot; alt=&quot;QuoMBT&quot; style=&quot;width:400px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h6 id=&quot;the-mbt-approach-for-quorum-based-fault-tolerant-distributed-systems-and-consensus-protocols&quot;&gt;The MBT approach for Quorum-based fault-tolerant distributed systems and consensus protocols&lt;/h6&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/MBT.png&quot; alt=&quot;QuoMBT&quot; style=&quot;width:400px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;implementation--development-of-software-tools&quot;&gt;Implementation &amp;amp; development of software tools&lt;/h4&gt;
+&lt;p&gt;To apply our proposed MBT approach and QuoMBT testing framework,&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;two case studies were developed as systems under test including&lt;/p&gt;
+
+    &lt;ol&gt;
+      &lt;li&gt;a distributed storage system &lt;a href=&quot;https://github.com/wruiwr/distributedstorage&quot;&gt;(Github link)&lt;/a&gt; [7]&lt;/li&gt;
+      &lt;li&gt;a Paxos distributed consensus protocol &lt;a href=&quot;https://github.com/wruiwr/singlepaxosgo&quot;&gt;(Github link)&lt;/a&gt; [8]&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;both implemented in &lt;a href=&quot;https://golang.org&quot;&gt;the Go programming language&lt;/a&gt; and using the Gorums framework;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;we also developed CPN testing models of these two distributed systems.&lt;/p&gt;
+
+    &lt;ol&gt;
+      &lt;li&gt;
+        &lt;p&gt;a CPN testing model for the distributed storage system:&lt;/p&gt;
+
+        &lt;p&gt;the figures below briefly show the Clients module (left) and the server module (right) of the CPN model for the distributed storage service.&lt;/p&gt;
+
+        &lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/client.png&quot; alt=&quot;client&quot; style=&quot;width:250px;&quot; /&gt; &lt;img src=&quot;/assets/img/posts/papers/server.png&quot; alt=&quot;server&quot; style=&quot;width:340px;&quot; /&gt;&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;p&gt;a CPN testing model for the Paxos distributed consensus protocol:&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;the figure below briefly shows the Paxos server replica module of the CPN model for the Paxos distributed consensus protocol. The module consists of three Paxos agent roles: the Proposer, Acceptor, and Learner.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/replica.png&quot; alt=&quot;replica&quot; style=&quot;width:600px;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;the automated testing environment and test scripts were developed using shell scripting.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;in addition, we developed an MBT/CPN testing tool as an extension of CPN Tools for automated test case generation from CPN models and a test case execution engine in Go to use Go templates to automatically generate test adapters that perform automated test case execution. The details of these two tools will be discussed in another post.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;testing--evaluation&quot;&gt;Testing &amp;amp; Evaluation&lt;/h4&gt;
+&lt;p&gt;The experimental evaluation showed that our MBT approach and the QuoMBT framework tested concurrent executions and fault tolerance, obtained high code coverage, and successfully detected programming errors in the Gorums middleware and distributed systems implemented based on the Gorums framework [3][4].&lt;/p&gt;
+
+&lt;h4 id=&quot;references&quot;&gt;References&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;Tormod Erevik Lea, Leander Jehl, and Hein Meling. Towards New Abstractions for Implementing Quorum-based Systems. In 37th International Conference on Distributed Computing Systems (ICDCS), Jun 2017.&lt;/li&gt;
+  &lt;li&gt;M. Vukolić. Quorum Systems: With Applications to Storage and Consensus. Synthesis Lectures on Distributed Computing Theory, 3(1):1–146, 2012.&lt;/li&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, H. Meling, and V. Stolz. Automated test case generation for the Paxos single-decree protocol using a Coloured Petri Net model. In Journal of Logical and Algebraic Methods in Programming, volume 104, pages 254–273, Elsevier Ltd, 2019.&lt;/li&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, H. Meling, and V. Stolz. Model-Based Testing of the Gorums Framework for Fault-Tolerant Distributed Systems. In Transactions on Petri Nets and Other Models of Concurrency XIII, volume 11090 of Lecture Notes in Computer Science, pages 158–180, Springer International Publishing, 2018.&lt;/li&gt;
+  &lt;li&gt;K. Jensen and L. Kristensen. Coloured Petri Nets: A Graphical Language for Modelling and Validation of Concurrent Systems. Comm. ACM, 58(6):61–70, 2015.&lt;/li&gt;
+  &lt;li&gt;CPN Tools. &lt;a href=&quot;http://www.cpntools.org&quot;&gt;CPN Tools homepage&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Distributed Storage. &lt;a href=&quot;https://github.com/wruiwr/distributedstorage&quot;&gt;Github link&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Paxos distributed consensus protocol. &lt;a href=&quot;https://github.com/wruiwr/singlepaxosgo&quot;&gt;Github link&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;other-related-publications&quot;&gt;Other related publications&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, H. Meling, and V. Stolz. Application of Model-based Testing on a Quorum-based Distributed Storage. In CEUR Workshop Proceedings, Petri Nets and Software Engineering (PNSE’17), volume 1846, pages 177–196, 2017.&lt;/li&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, H. Meling, and V. Stolz. Model-based Testing of the Gorums Framework for Fault-tolerant Distributed Systems. In Proceedings of the 29th Nordic Workshop on Programming Theory (NWPT), Turku Center for Computer Science, Finland, 2017.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Rui Wang</name></author><summary type="html">Society is increasingly dependent on fault-tolerant cloud-based services which rely on the correctness and reliability of advanced distributed software systems and consensus protocols. The implementations of these systems require complex processing logic which in turn makes them challenging to implement correctly and also challenging to test in a systematic way. Model-based software testing (MBT) is a powerful approach for testing software systems. MBT enables automated test case generation from models, which can be used to investigate fault-tolerance and expose errors in the implementations of software systems.</summary></entry><entry><title type="html">Automated Test Case Generation and Execution based on Coloured Petri Nets for Distributed Systems Protocols</title><link href="/2020/05/11/mbtcpn-for-distributed-systems/" rel="alternate" type="text/html" title="Automated Test Case Generation and Execution based on Coloured Petri Nets for Distributed Systems Protocols" /><published>2020-05-11T00:00:00+00:00</published><updated>2020-05-11T00:00:00+00:00</updated><id>/2020/05/11/mbtcpn-for-distributed-systems</id><content type="html" xml:base="/2020/05/11/mbtcpn-for-distributed-systems/">&lt;p&gt;Society is heavily dependent on software and software systems, and design- and implementation errors in systems may render them unavailable and return erroneous results to the users. It is therefore important to develop automated techniques and supporting software tools that can be used to support the engineering of correct and stable software systems. 
+This post summarizes the tools developed for an automated model-based software testing approach to validate implementations of distributed systems and protocols.
+These tools include:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;an MBT/CPN software engineering tool (&lt;a href=&quot;https://github.com/selabhvl/mbtcpn&quot;&gt;Github link&lt;/a&gt;) [1] developed as an extension for the CPN Tools [2] to automatically generate test cases.&lt;/li&gt;
+  &lt;li&gt;a test execution engine (&lt;a href=&quot;https://github.com/selabhvl/gotestgen&quot;&gt;Github link&lt;/a&gt;) developed that has an adapter generator implemented in &lt;a href=&quot;https://golang.org&quot;&gt;the Go programming language&lt;/a&gt; to automatically generate the test adapter that can perform test case execution the system under test.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The tools were used to validate the correctness of a two-phase commit transcation protocol (&lt;a href=&quot;https://github.com/selabhvl/mbtcpn/tree/master/goTPC&quot;&gt;Github link&lt;/a&gt;) implemented in the Go programming language. 
+The MBT/CPN tool was also used to test a distributed storage system [3] and a Paxos distributed consensus protocol [4] (see my another post).&lt;/p&gt;
+
+&lt;h4 id=&quot;design&quot;&gt;Design&lt;/h4&gt;
+
+&lt;h6 id=&quot;software-architecture-of-the-mbtcpn-software-tool&quot;&gt;Software Architecture of the MBT/CPN Software Tool&lt;/h6&gt;
+&lt;p&gt;The figure below shows the software architecture of the MBT/CPN Tool. 
+The tool was developed on the top of the CPN Tool. 
+This tool can automatically generate test cases in the XML format from CPN testing models using both simulation-based test case generation (SSTCG) and state space-based test case generation (SimTCG). The generated test cases can be read by a reader and executed by a tester of a test adapter to validate the correctness of the system under test.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/MBTCPN.png&quot; alt=&quot;MBTCPN&quot; style=&quot;width:400px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h6 id=&quot;test-execution-engine&quot;&gt;Test Execution Engine&lt;/h6&gt;
+&lt;p&gt;The figure below gives the overall process of using the test execution engine.
+When exporting test cases from the MBT/CPN tool into an XML file (step (1)), two elements of information are generated and inserted into the XML format. One element is test cases; the other element is the settings used to generate a Test Adapter. The information included in these settings is used by the adapter generator of the test execution engine which has predefined Go templates to generate a test adapter consisting of a reader and a tester in the Go programming language (step (2) and (3)). After the test adapter has been generated, the reader can read the information included in the test cases of the XML file (step (4)). Then, the tester can execute them against the system under test and compare the output of the SUT with expected output (oracle) (steps (5), (6) and (7)).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/automated.png&quot; alt=&quot;automated&quot; style=&quot;width:600px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;implementation--development-of-software-tools&quot;&gt;Implementation &amp;amp; development of software tools&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;a two-phase commit transcation protocol was implemented as the system under test.&lt;/li&gt;
+  &lt;li&gt;the MBT/CPN tool was developed on the top of the CPN Tools.&lt;/li&gt;
+  &lt;li&gt;the test execution engine was developed in the Go programming language with Go templates implemented using the &lt;code class=&quot;highlighter-rouge&quot;&gt;text/template&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;encoding/xml&lt;/code&gt; packages, both belonging to the Go standard library.&lt;/li&gt;
+  &lt;li&gt;the automated testing environment and test scripts were developed using shell scripting.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;testing--evaluation&quot;&gt;Testing &amp;amp; Evaluation&lt;/h4&gt;
+&lt;p&gt;We successfully applied the MBT/CPN tool to test a distributed storage system and a Paxos consensus protocol both implemented via the Gorums framework (see my another post). The general use of the tool has been demonstrated by validating the correctness of a two-phase commit transaction protocol. The demonstrations have shown that the MBT/CPN tool can successfully support our MBT approach and test cases generated by the MBT/CPN tool yield high statement coverage and detect errors in the implementations.&lt;/p&gt;
+
+&lt;h4 id=&quot;references&quot;&gt;References&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, and V. Stolz. MBT/CPN: A Tool for Model-Based Software Testing of Distributed Systems Protocols Using Coloured Petri Nets. In Verification and Evaluation of Computer and Communication Systems, volume 11181 of Lecture Notes in Computer Science, pages 97–113, Springer International Publishing, 2018.&lt;/li&gt;
+  &lt;li&gt;CPN Tools. &lt;a href=&quot;http://www.cpntools.org&quot;&gt;CPN Tools homepage&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, H. Meling, and V. Stolz. Automated test case generation for the Paxos single-decree protocol using a Coloured Petri Net model. In Journal of Logical and Algebraic Methods in Programming, volume 104, pages 254–273, Elsevier Ltd, 2019.&lt;/li&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, H. Meling, and V. Stolz. Model-Based Testing of the Gorums Framework for Fault-Tolerant Distributed Systems. In Transactions on Petri Nets and Other Models of Concurrency XIII, volume 11090 of Lecture Notes in Computer Science, pages 158–180, Springer International Publishing, 2018.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;other-related-publications&quot;&gt;Other related publications&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, H. Meling, and V. Stolz. Application of Model-based Testing on a Quorum-based Distributed Storage. In CEUR Workshop Proceedings, Petri Nets and Software Engineering (PNSE’17), volume 1846, pages 177–196, 2017.&lt;/li&gt;
+  &lt;li&gt;R. Wang, L. M. Kristensen, H. Meling, and V. Stolz. Model-based Testing of the Gorums Framework for Fault-tolerant Distributed Systems. In Proceedings of the 29th Nordic Workshop on Programming Theory (NWPT), Turku Center for Computer Science, Finland, 2017.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Rui Wang</name></author><summary type="html">Society is heavily dependent on software and software systems, and design- and implementation errors in systems may render them unavailable and return erroneous results to the users. It is therefore important to develop automated techniques and supporting software tools that can be used to support the engineering of correct and stable software systems. This post summarizes the tools developed for an automated model-based software testing approach to validate implementations of distributed systems and protocols. These tools include:</summary></entry><entry><title type="html">Multi-objective reinforcement learning and optimization for the search-based test case generation of Model-based software testing.</title><link href="/2020/05/10/reinforcement-learning-optimization-test-generation/" rel="alternate" type="text/html" title="Multi-objective reinforcement learning and optimization for the search-based test case generation of Model-based software testing." /><published>2020-05-10T00:00:00+00:00</published><updated>2020-05-10T00:00:00+00:00</updated><id>/2020/05/10/reinforcement-learning-optimization-test-generation</id><content type="html" xml:base="/2020/05/10/reinforcement-learning-optimization-test-generation/">&lt;p&gt;The complexity of software systems today has amplified the importance of software testing as a scalable and efficient technique to discover defects. However, producing test cases by hand is tedious, expensive, and error-prone. 
+Model-based software testing (MBT) enables automated test case generation from abstract models of the system under test to address this problem.
+However, for complex software systems, it is infeasible to explore and generate all the possible test cases for the software system under test. This means that a challenging decision needs to be made on how many test cases to generate.
+Also, it is a challenge for MBT to obtain desired test adequacy by generating a small test suite having few redundant test cases. Uncontrolled random approaches might result in test suites having redundant test cases which only cover few execution paths of the model and the SUT.&lt;/p&gt;
+
+&lt;p&gt;Our approach [1] considered test case generation as an exploration versus exploitation dilemma which is a classic reinforcement learning problem, and we addressed this dilemma by implementing a particular strategy of multi-objective multi-armed bandits with multiple rewards as a tool extension for the Modbat Tester [2]. After optimizing our strategy  using the jMetal multi-objective optimization framework, the resulting parameter setting was then used by an extended version of the Modbat tool for model-based testing to generate optimal test cases. We experimentally evaluated our search-based approach on a collection of examples, including the &lt;a href=&quot;https://zookeeper.apache.org/doc/r3.5.1-alpha/zookeeperOver.html&quot;&gt;ZooKeeper distributed service&lt;/a&gt; and &lt;a href=&quot;https://www.postgresql.org/&quot;&gt;PostgreSQL database system&lt;/a&gt;, by comparing it to the use of random search for test case generation.&lt;/p&gt;
+
+&lt;h4 id=&quot;design&quot;&gt;Design&lt;/h4&gt;
+&lt;p&gt;Reinforcement learning [3] is the subfield of machine learning devoted to studying problems and designing algorithms that analyze the exploration versus exploitation dilemma. The multi-armed bandit slot machine problem [4] is a well-established class of sequential decision problems in the context of reinforcement learning.&lt;/p&gt;
+
+&lt;p&gt;For our approach, we considered that the decisions required to select a possible test case to generate faces the exploration versus exploitation dilemma when searching/exploring the state space.
+In addition, we also considered that obtaining good and balanced results of the chosen test adequacy criteria with fewer generated test cases is a multi-objective optimization problem.&lt;/p&gt;
+
+&lt;p&gt;Therefore, we designed and implemented a bandit heuristic search strategy as a tool extension for the Modbat Tester. The strategy relies on the Upper Confidence Bounds (UCB) family [5] of algorithms to address the multi-armed bandit problem faced by test case generation. We then use the multi-objective optimization technique with the aid of the jMetal framework [6] and the NSAG-II genetic algorithm [7] to optimal our strategy based on the Pareto Efficiency [8] to obtain optimal test cases with considering the tradeoff of chosen test adequacy criteria. Its process is shown in the figure below. The generated Pareto Optimal Set has optimized parameter settings for the Modbat Tester to generate optimal test cases.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/optimization.png&quot; alt=&quot;optimization&quot; style=&quot;width:300px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;implementation--development-of-software-tools&quot;&gt;Implementation &amp;amp; development of software tools&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Implemented a bandit heuristic search algorithm in &lt;a href=&quot;https://www.scala-lang.org/&quot;&gt;Scala&lt;/a&gt; as a search-based test case generation tool extension included as a new feature for the &lt;a href=&quot;https://github.com/cyrille-artho/modbat/tree/3.4&quot;&gt;Modbat Tester 3.4 release&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Developed a plot generator tool in &lt;a href=&quot;https://golang.org/&quot;&gt;Go&lt;/a&gt; to generate box plots for result data analysis of the evaluation.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Defined multi-objective bandit search problem in &lt;a href=&quot;https://www.java.com/en/&quot;&gt;Java&lt;/a&gt; using an objective function, with the aid of the jMetal optimization framework.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The automated testing environment, test scripts, resulting data collection were developed using shell scripting, &lt;a href=&quot;https://www.gnu.org/software/sed/&quot;&gt;sed&lt;/a&gt;, and &lt;a href=&quot;https://pubs.opengroup.org/onlinepubs/9699919799/utilities/awk.html&quot;&gt;AWK&lt;/a&gt; programming languages.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;testing--evaluation&quot;&gt;Testing &amp;amp; Evaluation&lt;/h4&gt;
+&lt;p&gt;We experimentally evaluated our approach on a collection of Modbat models from a training set including simple examples and the test set including two large examples which were the ZooKeeper distributed service and the PostgreSQL database system.
+The evaluation results showed that test cases generated using our search-based approach and optimization can obtain more predictable and better state/transition coverage, find failures earlier, and provide improved path coverage.&lt;/p&gt;
+
+&lt;h4 id=&quot;references&quot;&gt;References&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;R. Wang, C. Artho, L. M. Kristensen, and V. Stolz. Multi-objective Search for Model-based Testing. Submitted to The 20th IEEE International Conference on Software Quality, Reliability, and Security, Vilnius, Lithuania, IEEE, 2020.&lt;/li&gt;
+  &lt;li&gt;C. Artho, A. Biere, M. Hagiya, E. Platon, M. Seidl, Y. Tanabe, and M. Yamamoto, “Modbat: A model-based API tester for event-driven systems,” in Haifa Verification Conference, ser. Lecture Notes in Computer Science, vol. 8244. Springer, 2013, pp. 112–128.&lt;/li&gt;
+  &lt;li&gt;R. S. Sutton and A. G. Barto, Reinforcement learning: An introduction. Cambridge, MA: MIT Press, 2011.&lt;/li&gt;
+  &lt;li&gt;D. A. Berry and B. Fristedt, “Bandit problems: sequential allocation of experiments (monographs on statistics and applied probability),” London: Chapman and Hall, vol. 5, pp. 71–87, 1985.&lt;/li&gt;
+  &lt;li&gt;P. Auer, N. Cesa-Bianchi, and P. Fischer, “Finite-time analysis of the multiarmed bandit problem,” Machine learning, vol. 47, no. 2-3, pp. 235–256, 2002.&lt;/li&gt;
+  &lt;li&gt;J. J. Durillo and A. J. Nebro, “jMetal: A Java framework for multi- objective optimization,” Advances in Engineering Software, vol. 42,
+no. 10, pp. 760 – 771, 2011.&lt;/li&gt;
+  &lt;li&gt;K. Deb, S. Agrawal, A. Pratap, and T. Meyarivan, “A fast elitist non- dominated sorting genetic algorithm for multi-objective optimization: NSGA-II,” in International conference on parallel problem solving from nature. Springer, 2000, pp. 849–858.&lt;/li&gt;
+  &lt;li&gt;Y. Collette and P. Siarry, Multiobjective optimization: principles and case studies. Springer Science &amp;amp; Business Media, 2013.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Rui Wang</name></author><summary type="html">The complexity of software systems today has amplified the importance of software testing as a scalable and efficient technique to discover defects. However, producing test cases by hand is tedious, expensive, and error-prone. Model-based software testing (MBT) enables automated test case generation from abstract models of the system under test to address this problem. However, for complex software systems, it is infeasible to explore and generate all the possible test cases for the software system under test. This means that a challenging decision needs to be made on how many test cases to generate. Also, it is a challenge for MBT to obtain desired test adequacy by generating a small test suite having few redundant test cases. Uncontrolled random approaches might result in test suites having redundant test cases which only cover few execution paths of the model and the SUT.</summary></entry><entry><title type="html">Visualization and Abstractions for Execution Paths in Model-Based Software Testing</title><link href="/2020/05/09/path-coverage-visualization/" rel="alternate" type="text/html" title="Visualization and Abstractions for Execution Paths in Model-Based Software Testing" /><published>2020-05-09T00:00:00+00:00</published><updated>2020-05-09T00:00:00+00:00</updated><id>/2020/05/09/path-coverage-visualization</id><content type="html" xml:base="/2020/05/09/path-coverage-visualization/">&lt;p&gt;Software systems testing is a widely used, scalable, and efficient technique to discover Software systems defects. However, generating sufficiently many and diverse test cases to obtain good coverage of the software system under test is challenging.
+It is therefore important to use test adequacy criteria to measure and evaluate the extent to which sufficient test cases have been generated and executed against the system under test.&lt;/p&gt;
+
+&lt;p&gt;To address this challenge, 
+our approach [1] focused on execution path coverage which can be considered as a test adequacy criterion that assesses the degree to which the testing model has been explored. Our approach relies on the use of a trie data structure to capture execution paths of test cases and proposed visualization abstractions as the foundation for path coverage visualization. The visualization of execution path coverage can provide a better overview of how the different parts of the model have been explored, if the tests have redundancies, and if any parts of the system are hard to reach via the test case generation. 
+To evaluate our approach, we have performed experiments on a collection of examples, including the &lt;a href=&quot;https://zookeeper.apache.org/doc/r3.5.1-alpha/zookeeperOver.html&quot;&gt;ZooKeeper distributed service&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;design&quot;&gt;Design&lt;/h4&gt;
+&lt;p&gt;We considered that a finite execution path of a test case is a sequence of transitions starting from the initial state and leading to a terminal state.
+We first designed a technique to capture execution paths of test cases of models for the systems under test using a trie data structure.
+As an example, consider a test suite consisting of three execution paths: &lt;code class=&quot;highlighter-rouge&quot;&gt;p0=[a→b,b→b,b→c,c→d]&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;p1=[a→b,b→b,b→b,b→c,c→d]&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;p2=[a→b,b→b,b→e]&lt;/code&gt;, where a, b, c, d, and e are states. &lt;code class=&quot;highlighter-rouge&quot;&gt;→&lt;/code&gt; denotes a transition from one state to another state; for example, &lt;code class=&quot;highlighter-rouge&quot;&gt;a→b&lt;/code&gt; means a transition from the state a to the state b. 
+These three execution paths can be recorded and represented by the trie data structure shown below, where the node labeled root represents the root of the trie. Each non-root node in the trie has been labeled with the transition it represents. As an example, node 1 represents the transition &lt;code class=&quot;highlighter-rouge&quot;&gt;a→b&lt;/code&gt;.
+All the three execution paths stored in the trie have &lt;code class=&quot;highlighter-rouge&quot;&gt;a→b&lt;/code&gt; followed by &lt;code class=&quot;highlighter-rouge&quot;&gt;b→b&lt;/code&gt; as a (common) prefix. Each non-root node also has a label representing the transition counters associated with the node. 
+For example, the transition &lt;code class=&quot;highlighter-rouge&quot;&gt;b→b&lt;/code&gt; associated with node 2 has been taken three times in total. Two paths, (p0 and p2) execute this transition once (label &lt;code class=&quot;highlighter-rouge&quot;&gt;trc=1:tpc=2&lt;/code&gt;), while one path p1 executes it twice (label &lt;code class=&quot;highlighter-rouge&quot;&gt;trc=2:tpc=1&lt;/code&gt;). 
+Note that this data structure is not a direct visual representation of the paths and it is not the trie data structure that we eventually visualize in our approach.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/trie.png&quot; alt=&quot;trie&quot; style=&quot;width:600px;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;with recorded all execution path of generated test cases from the model of the system under test, 
+we then designed a technique to measure and visualize the execution path coverage criterion of test cases using designed graph abstractions into two types of visualizations for path coverage, so-called state-based graphs (SGs) and path-based graphs (PGs). The abstractions we have designed and developed to simplify these graphs enabled us to deal with the complexity of moderately large systems. Our visualization approach also relies on the attributes of graphs including the edge thickness to visualize the frequency of transitions on executed paths and edge colors of the graphs to show what kinds of tests succeed or fail. 
+The figures below show a SG (left) and a PG (right) for the Java server socket model with ten test cases executed, including failed transitions in red and labeled with (f).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/posts/papers/sg.png&quot; alt=&quot;sg&quot; style=&quot;width:355px;&quot; /&gt; &lt;img src=&quot;/assets/img/posts/papers/pg.png&quot; alt=&quot;pg&quot; style=&quot;width:300px;&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;implementation--development-of-software-tools&quot;&gt;Implementation &amp;amp; development of software tools&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Developed a path coverage visualizer tool in &lt;a href=&quot;https://www.scala-lang.org/&quot;&gt;Scala&lt;/a&gt;, which was included as a new feature for the &lt;a href=&quot;https://github.com/cyrille-artho/modbat/tree/3.4&quot;&gt;Modbat Tester 3.4 release&lt;/a&gt;, to record execution paths of test cases in the trie and to visualize execution path coverage using two types of simplified graphs with the aid of designed graph abstractions.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The automated testing environment was developed using shell scripting.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;testing--evaluation&quot;&gt;Testing &amp;amp; Evaluation&lt;/h4&gt;
+
+&lt;p&gt;We applied the visualizer to measure and visualize execution path coverage of test cases of a collection of examples, including the ZooKeeper distributed coordination service.
+The results showed that the SGs are good at giving an overview of the models based on extended finite state machines with detailed information about executed states and transitions; the PGs show distinct executed paths well, with a particular focus on giving information on linearly independent path coverage which can be considered as a test adequacy criterion.
+The visual feedbacks successfully gave testers confidence about how well the testing models were explored by the generated test cases and what kinds of tests succeeded or failed.&lt;/p&gt;
+
+&lt;h4 id=&quot;references&quot;&gt;References&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;R. Wang, C. Artho, L. M. Kristensen, and V. Stolz. Visualization and Abstractions for Execution Paths in Model-Based Software Testing. In Integrated Formal Methods, volume 11918 of Lecture Notes in Computer Science, pages 474–492, Springer International Publishing, 2019.&lt;/li&gt;
+  &lt;li&gt;C. Artho, A. Biere, M. Hagiya, E. Platon, M. Seidl, Y. Tanabe, and M. Yamamoto, “Modbat: A model-based API tester for event-driven systems,” in Haifa Verification Conference, ser. Lecture Notes in Computer Science, vol. 8244. Springer, 2013, pp. 112–128.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Rui Wang</name></author><summary type="html">Software systems testing is a widely used, scalable, and efficient technique to discover Software systems defects. However, generating sufficiently many and diverse test cases to obtain good coverage of the software system under test is challenging. It is therefore important to use test adequacy criteria to measure and evaluate the extent to which sufficient test cases have been generated and executed against the system under test.</summary></entry><entry><title type="html">Integration of Runtime Verification into Metamodelling, oriented towards verification of behavioural Domain Specific Modelling Languages</title><link href="/2020/05/07/rv-mm-lego-robot/" rel="alternate" type="text/html" title="Integration of Runtime Verification into Metamodelling, oriented towards verification of behavioural Domain Specific Modelling Languages" /><published>2020-05-07T00:00:00+00:00</published><updated>2020-05-07T00:00:00+00:00</updated><id>/2020/05/07/rv-mm-lego-robot</id><content type="html" xml:base="/2020/05/07/rv-mm-lego-robot/">&lt;p&gt;For details, see &lt;a href=&quot;https://www.isp.uni-luebeck.de/rv+mm/&quot;&gt;Integration of Runtime Verification into Metamodeling&lt;/a&gt;&lt;/p&gt;</content><author><name>Rui Wang</name></author><summary type="html">For details, see Integration of Runtime Verification into Metamodeling</summary></entry></feed>
